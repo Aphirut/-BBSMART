@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8fafc" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>BBSMART PLUS ระบบบริหารจัดการสถานศึกษา</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="https://img2.pic.in.th/pic/logod12eb33664838b47.th.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+      html { font-size: 14px; }
+      body { font-family: 'Sarabun', 'Prompt', sans-serif; margin: 0; padding: 0; background-color: #f8fafc; color: #1e293b; }
+      
+      /* Loading Indicator */
+      #root:empty::before {
+        content: "กำลังโหลดระบบ...";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: 'Sarabun', sans-serif;
+        color: #64748b;
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+      
+      /* Spinner Animation */
+      #root:empty::after {
+        content: "";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 40px;
+        height: 40px;
+        margin-top: 30px;
+        margin-left: -20px;
+        border: 4px solid #e2e8f0;
+        border-top-color: #1e3a8a; /* Navy Blue */
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      /* Animation Utilities */
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+      .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+      .animate-fade-in-up { animation: fadeInUp 0.4s ease-out forwards; }
+      .animate-scale-in { animation: scaleIn 0.2s ease-out forwards; }
+      
+      /* Custom Scrollbar for Light Theme */
+      ::-webkit-scrollbar { width: 8px; height: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f5f9; }
+      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+      
+      .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+    
+    <!-- Environment Variables -->
+    <script>
+      window.process = {
+        env: {
+          NODE_ENV: 'production',
+          PUBLIC_URL: ''
+        }
+      };
+    </script>
+
+    <!-- Import Map: React 19 and clean dependencies -->
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react/jsx-runtime": "https://esm.sh/react@19.0.0/jsx-runtime",
+    "react-markdown": "https://esm.sh/react-markdown@9.0.1?deps=react@19.0.0",
+    "lucide-react": "https://esm.sh/lucide-react@0.263.1?deps=react@19.0.0",
+    "recharts": "https://esm.sh/recharts@2.15.0?deps=react@19.0.0,react-dom@19.0.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "sqlite3": "https://aistudiocdn.com/sqlite3@^5.1.7",
+    "path": "https://aistudiocdn.com/path@^0.12.7",
+    "fs": "https://aistudiocdn.com/fs@^0.0.1-security",
+    "express": "https://aistudiocdn.com/express@^5.1.0",
+    "cors": "https://aistudiocdn.com/cors@^2.8.5",
+    "body-parser": "https://aistudiocdn.com/body-parser@^2.2.0",
+    "url": "https://aistudiocdn.com/url@^0.11.4",
+    "esbuild": "https://aistudiocdn.com/esbuild@^0.27.0",
+    "@google/generative-ai": "https://aistudiocdn.com/@google/generative-ai@^0.24.1",
+    "@google/genai": "https://esm.sh/@google/genai@0.1.1",
+    "@supabase/supabase-js": "https://aistudiocdn.com/@supabase/supabase-js@^2.86.0",
+    "docx": "https://aistudiocdn.com/docx@^9.5.1"
+  }
+}
+</script>
+  </head>
+  <body>
+    <div id="root"></div>
+    
+    <!-- Error Handling Script -->
+    <script>
+      window.addEventListener('error', function(e) {
+        console.error('Global error:', e.error);
+        const root = document.getElementById('root');
+        if (root && root.children.length === 0) {
+          root.innerHTML = `
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; font-family: 'Sarabun', sans-serif; background: #f8fafc; color: #1e293b;">
+              <div style="color: #ef4444; font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;">⚠️ เกิดข้อผิดพลาด</div>
+              <div style="color: #64748b; margin-bottom: 0.5rem; text-align: center; padding: 0 2rem;">${e.message}</div>
+              <button onclick="location.reload()" style="background: #1e3a8a; color: white; padding: 0.5rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; font-family: 'Sarabun', sans-serif; margin-top: 1rem; font-weight: bold;">โหลดใหม่</button>
+            </div>
+          `;
+        }
+      });
+      
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('Unhandled promise rejection:', e.reason);
+      });
+      
+      setTimeout(function() {
+        const root = document.getElementById('root');
+        if (root && root.children.length === 0) {
+          console.warn('App failed to load within 15 seconds');
+          root.innerHTML = `
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; font-family: 'Sarabun', sans-serif; background: #f8fafc;">
+              <div style="color: #f59e0b; font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;">⚠️ การโหลดล้มเหลว</div>
+              <div style="color: #64748b; margin-bottom: 0.5rem;">ระบบใช้เวลาโหลดนานเกินไป</div>
+              <button onclick="location.reload()" style="background: #1e3a8a; color: white; padding: 0.5rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; font-family: 'Sarabun', sans-serif; font-size: 1rem; font-weight: bold;">โหลดใหม่อีกครั้ง</button>
+            </div>
+          `;
+        }
+      }, 15000);
+    </script>
+    
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

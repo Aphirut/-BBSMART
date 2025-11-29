@@ -1,0 +1,16 @@
+{
+  "name": "bbsmart-app",
+  "version": "1.0.0",
+  "description": "BBSMART School Management System",
+  "homepage": "https://Aphirut.github.io/BBSMART",
+  "scripts": {
+    "start": "node server/index.js",
+    "postinstall": "cd server && npm install"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.7",
+    "cross-env": "^7.0.3",
+    "docx": "^9.5.1",
+    "officegen": "^0.6.5"
+  }
+}
