@@ -1,5 +1,7 @@
 {
   "name": "BBSMART PLUS",
   "description": "ระบบบริหารจัดการสถานศึกษา สกร.ระดับอำเภอบ้านบึง",
-  "requestFramePermissions": []
+  "requestFramePermissions": [
+    "camera"
+  ]
 }
